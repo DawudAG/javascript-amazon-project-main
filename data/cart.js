@@ -1,4 +1,8 @@
-export const cart = [];
+export let cart = JSON.parse(localStorage.getItem('cart')) && [];
+
+function saveToStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart))
+}
 
 export function addToCart(productId) {
     let matchingItem;
@@ -14,4 +18,20 @@ export function addToCart(productId) {
     } else {
       cart.push({productId: productId, quantity: 1});
     }
+
+    saveToStorage()
+}
+
+export function removeFromCart(productId) {
+  const newCart = [];
+
+  cart.forEach((cartItem) => {
+    if (cartItem.productId !== productId) {
+      newCart.push(cartItem)
+    }
+  });
+
+  cart = newCart
+
+  saveToStorage()
 }
